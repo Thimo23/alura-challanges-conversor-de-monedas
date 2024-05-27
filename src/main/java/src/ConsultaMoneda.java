@@ -9,12 +9,18 @@ import java.net.http.HttpResponse;
 
 public class ConsultaMoneda {
 
+    public String cantidadNormalizada(double cant){
+        String cantNormalizada=String.valueOf(cant);
+        if(cant>=10000000) {
+            cantNormalizada =  String.valueOf((long) cant);
+        }
+        return cantNormalizada;
+    }
+
     Moneda hacerConversion(String monedaPrincipal,String monedaSecundaria,double cantidad) {
 
-        String cantidadNormalizada = String.format("%.0f", cantidad);
-
         URI direccion = URI.create("https://v6.exchangerate-api.com/v6/849e69ac7d249e2b62744bed/pair" + "/" + monedaPrincipal +
-                "/" + monedaSecundaria + "/" + cantidadNormalizada);
+                "/" + monedaSecundaria + "/" + cantidadNormalizada(cantidad));
 
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()

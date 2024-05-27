@@ -64,9 +64,6 @@ public class Main {
                     continue;
             }
 
-            if (!continuar) {
-                break;
-            }
 
             System.out.println("Ingrese la cantidad a convertir: ");
             try {
@@ -85,11 +82,11 @@ public class Main {
     }
     public static void conversion(String monedaPrincipal,String monedaAcambiar,double cant){
         ConsultaMoneda consulta = new ConsultaMoneda();
+
         try{
             Moneda miConversion = consulta.hacerConversion(monedaPrincipal,monedaAcambiar,cant);
-            String cantidadNormalizada = String.format("%.0f", cant);
-            String resultadoConversion = String.format("%.0f", miConversion.conversion_result());
-            System.out.println("La cantidad de "+ cantidadNormalizada + " " + monedaPrincipal + " equivale a " + resultadoConversion + " " + monedaAcambiar);
+            System.out.println("La cantidad de "+ consulta.cantidadNormalizada(cant) + " " + monedaPrincipal + " equivale a "
+                    + consulta.cantidadNormalizada(miConversion.conversion_result()) + " " + monedaAcambiar);
         }   catch (Exception e){
             System.out.println("Error en la conversion o en la solicitud de la API: "+e.getMessage());
         }
