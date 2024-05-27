@@ -9,9 +9,12 @@ import java.net.http.HttpResponse;
 
 public class ConsultaMoneda {
 
-    Moneda hacerConversion(String monedaPrincipal,String monedaSecundaria,float cantidad) {
+    Moneda hacerConversion(String monedaPrincipal,String monedaSecundaria,double cantidad) {
+
+        String cantidadNormalizada = String.format("%.0f", cantidad);
+
         URI direccion = URI.create("https://v6.exchangerate-api.com/v6/849e69ac7d249e2b62744bed/pair" + "/" + monedaPrincipal +
-                "/" + monedaSecundaria + "/" + cantidad);
+                "/" + monedaSecundaria + "/" + cantidadNormalizada);
 
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
@@ -21,15 +24,12 @@ public class ConsultaMoneda {
         try {
             HttpResponse<String> response = client
                     .send(request, HttpResponse.BodyHandlers.ofString());
-
+            System.out.println(response);
             return new Gson().fromJson(response.body(), Moneda.class);
 
         } catch (Exception e) {
             throw new RuntimeException("Moneda no encontrada");
         }
-
-
-
 
     }
 }
